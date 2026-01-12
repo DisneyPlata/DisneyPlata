@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jarro Disney – Recaudación</title>
+  <style>
+    :root {
+      --total: 5000;
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+
+    h1 {
+      margin-bottom: 8px;
+      font-size: 2rem;
+      text-align: center;
+    }
+
+    p {
+      margin: 0 0 24px 0;
+      opacity: 0.9;
+    }
+
+    .jar {
+      position: relative;
+      width: 200px;
+      height: 320px;
+      border: 6px solid #ffffffaa;
+      border-radius: 0 0 24px 24px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.05);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+
+    .jar::before {
+      content: "";
+      position: absolute;
+      top: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 18px;
+      border: 6px solid #ffffffaa;
+      border-bottom: none;
+      border-radius: 16px 16px 0 0;
+      background: transparent;
+    }
+
+    .liquid {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 0%;
+      background: linear-gradient(180deg, #ffd700, #ffae00);
+      transition: height 1.2s ease;
+    }
+
+    .liquid::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 12px;
+      background: rgba(255,255,255,0.35);
+      filter: blur(6px);
+    }
+
+    .amount {
+      margin-top: 16px;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .controls {
+      margin-top: 16px;
+      display: flex;
+      gap: 8px;
+    }
+
+    input {
+      padding: 8px;
+      border-radius: 8px;
+      border: none;
+      width: 120px;
+    }
+
+    button {
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      background: #ffae00;
+      font-weight: 600;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .alias {
+      margin-top: 32px;
+      padding: 12px 18px;
+      background: rgba(0,0,0,0.35);
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .alias strong {
+      font-size: 1.1rem;
+      color: #ffd700;
+    }
+
+    .goal {
+      margin-top: 6px;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>💰 Rumbo a Disney</h1>
+  <p>Jarro de aportes – objetivo 5.000 USD</p>
+
+  <div class="jar">
+    <div class="liquid" id="liquid"></div>
+  </div>
+
+  <div class="amount" id="amountText">0 USD / 5000 USD</div>
+
+  
+
+  <div class="alias">
+    Alias para aportar:<br />
+    <strong>mateo.cappelluti.mp</strong>
+    <div class="goal">Destino: Disney ✨</div>
+  </div>
+
+  <script>
+  // 🔧 CONFIGURACIÓN MANUAL
+  // Cambiá ESTE valor (en USD) cada vez que recibas dinero
+  const MONTO_MANUAL = 200; // USD actuales
+
+  const TOTAL = 5000;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const porcentaje = Math.min((MONTO_MANUAL / TOTAL) * 100, 100);
+
+    const liquid = document.getElementById('liquid');
+    const amountText = document.getElementById('amountText');
+
+    liquid.style.height = porcentaje + '%';
+    amountText.innerText = `${MONTO_MANUAL} USD / ${TOTAL} USD (${Math.round(porcentaje)}%)`;
+  });
+</script>
+
+</body>
+</html>

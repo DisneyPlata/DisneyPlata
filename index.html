@@ -4,12 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rumbo a Disney</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <style>
 body {
   margin: 0;
   min-height: 100vh;
   background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
-  font-family: system-ui, sans-serif;
+  font-family: 'Poppins', sans-serif;
   color: white;
   display: flex;
   flex-direction: column;
@@ -17,19 +18,26 @@ body {
   padding: 20px;
 }
 
-h1 { margin-bottom: 20px; }
+h1 {
+  margin-bottom: 20px;
+  font-weight: 600;
+  font-size: 2rem;
+  text-shadow: 0 0 8px rgba(255,255,255,0.4);
+}
 
+/* PAGINA DEL JARRO */
 #jarroPage { display: flex; flex-direction: column; align-items: center; }
 
 .jar {
   position: relative;
-  width: 200px;
-  height: 320px;
+  width: 220px;
+  height: 340px;
   border: 6px solid rgba(255,255,255,0.7);
-  border-radius: 0 0 24px 24px;
+  border-radius: 0 0 28px 28px;
   overflow: hidden;
-  background: rgba(0,0,0,0.1);
+  background: rgba(0,0,0,0.15);
   margin-bottom: 10px;
+  box-shadow: 0 0 20px rgba(255,215,0,0.3);
 }
 
 .jar::before {
@@ -38,25 +46,33 @@ h1 { margin-bottom: 20px; }
   top: -18px;
   left: 50%;
   transform: translateX(-50%);
-  width: 120px;
+  width: 130px;
   height: 18px;
   border: 6px solid rgba(255,255,255,0.7);
   border-bottom: none;
   border-radius: 16px 16px 0 0;
+  box-shadow: 0 0 10px rgba(255,215,0,0.4);
 }
 
-.amount { margin-top: 14px; font-weight: bold; }
+.amount {
+  margin-top: 14px;
+  font-weight: 600;
+  font-size: 1.2rem;
+  text-shadow: 0 0 5px rgba(255,255,255,0.3);
+}
 
 .alias {
   margin-top: 20px;
   background: rgba(0,0,0,0.35);
-  padding: 12px 18px;
+  padding: 14px 20px;
   border-radius: 12px;
   text-align: center;
+  font-size: 0.95rem;
 }
 
 .alias strong { color: #ffd700; }
 
+/* MONEDAS */
 .coin {
   position: absolute;
   width: 22px;
@@ -67,27 +83,27 @@ h1 { margin-bottom: 20px; }
   animation: drop 0.6s forwards;
 }
 
-@keyframes drop {
-  to { transform: translateY(0); }
-}
+@keyframes drop { to { transform: translateY(0); } }
 
 /* BOTONES */
 button {
   margin-top: 20px;
-  padding: 10px 20px;
+  padding: 12px 25px;
   font-size: 16px;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
   color: white;
-  transition: background 0.3s;
+  font-weight: 600;
+  transition: all 0.3s;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
 }
 
 #progresoBtn { background-color: #ff6f61; }
-#progresoBtn:hover { background-color: #ff3b2f; }
+#progresoBtn:hover { background-color: #ff3b2f; transform: scale(1.05); }
 
 #volverBtn { background-color: #555; }
-#volverBtn:hover { background-color: #777; }
+#volverBtn:hover { background-color: #777; transform: scale(1.05); }
 
 /* FEED */
 #feedPage { display: none; flex-direction: column; align-items: center; width: 100%; }
@@ -102,9 +118,9 @@ button {
 }
 
 .progresoItem {
-  background: rgba(255,255,255,0.1);
-  padding: 10px;
-  border-radius: 10px;
+  background: rgba(255,255,255,0.12);
+  padding: 12px;
+  border-radius: 12px;
   text-align: center;
   opacity: 0;
   transform: translateY(20px);
@@ -117,9 +133,8 @@ button {
   margin-bottom: 8px;
 }
 
-@keyframes fadeUp {
-  to { opacity: 1; transform: translateY(0); }
-}
+@keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
 </style>
 </head>
 <body>
@@ -140,6 +155,7 @@ button {
     Destino: Disney ✨
   </div>
 
+  <!-- BOTON VER PROGRESO -->
   <button id="progresoBtn">Ver progreso</button>
 </div>
 
@@ -151,16 +167,20 @@ button {
 </div>
 
 <script>
-/* CONFIGURACION DEL JARRO */
-const MONTO = 2000;
+/* ===== CONFIGURACION DEL JARRO ===== */
+// MONTO INICIAL: Cambia este valor dentro del HTML
+let MONTO = 200;  // <- AQUÍ actualizas lo recaudado
 const TOTAL = 5000;
+
 const JAR = document.getElementById("jar");
 const amountText = document.getElementById("amountText");
 
-amountText.innerText = `${MONTO} USD / ${TOTAL} USD (${Math.round((MONTO/TOTAL)*100)}%)`;
+// FUNCION PARA ACTUALIZAR EL JARRO
+function actualizarJarro() {
+  JAR.innerHTML = ""; // Limpiar monedas
+  const porcentaje = Math.min(MONTO/TOTAL,1);
+  amountText.innerText = `${MONTO} USD / ${TOTAL} USD (${Math.round(porcentaje*100)}%)`;
 
-// APILADO DE MONEDAS
-window.onload = () => {
   const jarWidth = JAR.clientWidth;
   const jarHeight = JAR.clientHeight;
   const coinSize = 22;
@@ -168,36 +188,34 @@ window.onload = () => {
   const cols = Math.floor(jarWidth / coinSize);
   const rows = Math.floor(jarHeight / coinSize);
   const totalCoins = cols * rows;
-  const coinsToShow = Math.round(totalCoins * (MONTO/TOTAL));
+  const coinsToShow = Math.round(totalCoins * porcentaje);
 
-  // Separación uniforme para llenar todo el ancho
-  const spacingX = (jarWidth - coinSize) / (cols - 1);
+  const spacingX = (jarWidth - coinSize)/(cols-1);
 
-  for(let i=0; i<coinsToShow; i++){
+  for(let i=0;i<coinsToShow;i++){
     const coin = document.createElement("div");
     coin.className = "coin";
 
     const col = i % cols;
-    const row = Math.floor(i / cols);
+    const row = Math.floor(i/cols);
 
-    const x = col * spacingX;
-    const y = jarHeight - ((row+1) * coinSize);
+    const x = col*spacingX;
+    const y = jarHeight - ((row+1)*coinSize);
 
-    coin.style.left = x + "px";
-    coin.style.top = y + "px";
-
-    coin.style.animationDelay = (Math.random()*0.5) + "s";
+    coin.style.left = x+"px";
+    coin.style.top = y+"px";
+    coin.style.animationDelay = (Math.random()*0.5)+"s";
 
     JAR.appendChild(coin);
   }
-};
+}
 
-/* FEED DE PROGRESOS */
+// CARGAR JARRO INICIAL
+window.onload = () => { actualizarJarro(); };
+
+/* ===== FEED DE PROGRESOS ===== */
 const progresos = [
-  {
-    img: "https://disneyplata.github.io/DisneyPlata/progreso1.jpg",
-    texto: "Saqué turno para la visa en febrero 12/01"
-  }
+  { img: "https://disneyplata.github.io/DisneyPlata/progreso1.jpg", texto: "Saqué turno para la visa en febrero 12/01" }
 ];
 
 const feed = document.getElementById("feed");
@@ -209,7 +227,7 @@ progresos.forEach((p,i)=>{
   feed.appendChild(item);
 });
 
-/* BOTONES PAGINAS */
+/* ===== BOTONES PAGINAS ===== */
 const progresoBtn = document.getElementById("progresoBtn");
 const volverBtn = document.getElementById("volverBtn");
 const jarroPage = document.getElementById("jarroPage");

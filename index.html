@@ -19,12 +19,7 @@ body {
 
 h1 { margin-bottom: 20px; }
 
-/* PAGINA DEL JARRO */
-#jarroPage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+#jarroPage { display: flex; flex-direction: column; align-items: center; }
 
 .jar {
   position: relative;
@@ -62,17 +57,19 @@ h1 { margin-bottom: 20px; }
 
 .alias strong { color: #ffd700; }
 
-/* MONEDAS */
 .coin {
   position: absolute;
   width: 22px;
   height: 22px;
   border-radius: 50%;
   background: radial-gradient(circle at 30% 30%, #fff6b0, #ffb700);
-  animation: fall 1.2s ease-in forwards;
+  transform: translateY(-350px);
+  animation: drop 0.6s forwards;
 }
 
-@keyframes fall { to { transform: translateY(360px) rotate(360deg); opacity: 1; } }
+@keyframes drop {
+  to { transform: translateY(0); }
+}
 
 /* BOTONES */
 button {
@@ -93,18 +90,13 @@ button {
 #volverBtn:hover { background-color: #777; }
 
 /* FEED */
-#feedPage {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
+#feedPage { display: none; flex-direction: column; align-items: center; width: 100%; }
 
 #feed {
   width: 100%;
   max-width: 400px;
   display: flex;
-  flex-direction: column-reverse; /* lo nuevo arriba */
+  flex-direction: column-reverse;
   gap: 15px;
   margin-bottom: 20px;
 }
@@ -165,34 +157,34 @@ const TOTAL = 5000;
 const JAR = document.getElementById("jar");
 const amountText = document.getElementById("amountText");
 
-const porcentaje = Math.min((MONTO / TOTAL) * 100, 100);
-amountText.innerText = `${MONTO} USD / ${TOTAL} USD (${Math.round(porcentaje)}%)`;
+amountText.innerText = `${MONTO} USD / ${TOTAL} USD (${Math.round((MONTO/TOTAL)*100)}%)`;
 
-/* FUNCION PARA CAER MONEDAS */
-function dropCoins(count = 30) {
-  const alturaJarro = JAR.clientHeight;
-  const anchoJarro = JAR.clientWidth;
+/* MONEDAS APILADAS */
+const coinSize = 22;
+const jarWidth = JAR.clientWidth;
+const jarHeight = JAR.clientHeight;
+const cols = Math.floor(jarWidth / coinSize);
+const rows = Math.floor(jarHeight / coinSize);
+const totalCoins = cols * rows;
+const coinsToShow = Math.round(totalCoins * (MONTO/TOTAL));
 
-  for (let i = 0; i < count; i++) {
-    const coin = document.createElement("div");
-    coin.className = "coin";
-    coin.style.left = Math.random() * (anchoJarro - 22) + "px";
-    coin.style.top = "-30px";
-    coin.style.animationDelay = (Math.random() * 1) + "s";
-    JAR.appendChild(coin);
+for(let i=0;i<coinsToShow;i++){
+  const coin = document.createElement("div");
+  coin.className = "coin";
+  
+  const col = i % cols;
+  const row = Math.floor(i / cols);
 
-    setTimeout(() => {
-      coin.style.top = (alturaJarro - 22 - (Math.random() * alturaJarro * porcentaje / 100)) + "px";
-    }, 50);
+  const x = col * coinSize + Math.random()*4;
+  const y = jarHeight - ((row+1) * coinSize) - Math.random()*4;
 
-    setTimeout(() => coin.remove(), 2500);
-  }
+  coin.style.left = x + "px";
+  coin.style.top = y + "px";
+
+  coin.style.animationDelay = (Math.random()*0.5) + "s";
+
+  JAR.appendChild(coin);
 }
-
-/* INICIO */
-window.onload = () => {
-  dropCoins(50);
-};
 
 /* FEED DE PROGRESOS */
 const progresos = [
@@ -203,10 +195,10 @@ const progresos = [
 ];
 
 const feed = document.getElementById("feed");
-progresos.forEach((p, i) => {
+progresos.forEach((p,i)=>{
   const item = document.createElement("div");
   item.className = "progresoItem";
-  item.style.animationDelay = `${i * 0.2}s`;
+  item.style.animationDelay = `${i*0.2}s`;
   item.innerHTML = `<img src="${p.img}" alt="Progreso"><div>${p.texto}</div>`;
   feed.appendChild(item);
 });
@@ -217,12 +209,12 @@ const volverBtn = document.getElementById("volverBtn");
 const jarroPage = document.getElementById("jarroPage");
 const feedPage = document.getElementById("feedPage");
 
-progresoBtn.addEventListener("click", () => {
+progresoBtn.addEventListener("click", ()=>{
   jarroPage.style.display = "none";
   feedPage.style.display = "flex";
 });
 
-volverBtn.addEventListener("click", () => {
+volverBtn.addEventListener("click", ()=>{
   feedPage.style.display = "none";
   jarroPage.style.display = "flex";
 });

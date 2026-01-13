@@ -1,40 +1,196 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jarro Disney – Recaudación</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jarro Disney</title>
 
-  <style>
-    :root { --total: 5000; }
+<style>
+* {
+  box-sizing: border-box;
+  font-family: system-ui, sans-serif;
+}
 
-    * {
-      box-sizing: border-box;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  overflow: hidden;
+}
 
-    body {
-      margin: 0;
-      height: 100vh;
-      background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      overflow: hidden;
-    }
+/* TEXTO */
+h1 { margin: 0; }
+p { opacity: 0.85; }
 
-    h1 {
-      margin-bottom: 8px;
-      font-size: 2rem;
-      text-align: center;
-    }
+/* JARRO */
+.jar {
+  position: relative;
+  width: 200px;
+  height: 320px;
+  border: 6px solid rgba(255,255,255,0.7);
+  border-radius: 0 0 24px 24px;
+  overflow: hidden;
+  margin-top: 20px;
+}
 
-    p {
-      margin: 0 0 24px 0;
-      opacity: 0.9;
-    }
+.jar::before {
+  content: "";
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 18px;
+  border: 6px solid rgba(255,255,255,0.7);
+  border-bottom: none;
+  border-radius: 16px 16px 0 0;
+}
+
+.liquid {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 0%;
+  background: linear-gradient(180deg, #ffd700, #ffae00);
+  transition: height 1s ease;
+}
+
+/* INFO */
+.amount {
+  margin-top: 12px;
+  font-weight: bold;
+}
+
+.alias {
+  margin-top: 20px;
+  background: rgba(0,0,0,0.35);
+  padding: 12px 18px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.alias strong { color: #ffd700; }
+
+/* BOTÓN */
+.progress-btn {
+  position: fixed;
+  bottom: 16px;
+  padding: 14px 24px;
+  border-radius: 999px;
+  background: #ffae00;
+  color: black;
+  border: none;
+  font-weight: bold;
+}
+
+/* OVERLAY */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: none;
+}
+
+/* PANEL */
+.progress-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 80%;
+  background: #0f2027;
+  border-radius: 24px 24px 0 0;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.progress-panel.open {
+  transform: translateY(0);
+}
+
+.overlay.open {
+  display: block;
+}
+
+/* PROGRESO */
+.progress-item {
+  background: rgba(255,255,255,0.08);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.progress-item img {
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  object-fit: cover;
+}
+
+.progress-text {
+  padding: 12px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>💰 Rumbo a Disney</h1>
+<p>Objetivo: 5.000 USD</p>
+
+<div class="jar">
+  <div class="liquid" id="liquid"></div>
+</div>
+
+<div class="amount" id="amountText"></div>
+
+<div class="alias">
+  Alias para aportar<br>
+  <strong>mateo.cappelluti.mp</strong>
+</div>
+
+<button class="progress-btn" onclick="openProgress()">Progresos</button>
+
+<div class="overlay" id="overlay" onclick="closeProgress()"></div>
+
+<div class="progress-panel" id="progressPanel">
+  <h3>📸 Progresos</h3>
+
+  <div class="progress-item">
+    <img src="progreso1.jpg">
+    <div class="progress-text">
+      Saqué turno de VISA para febrero – 12/01 🎟️🇺🇸
+    </div>
+  </div>
+</div>
+
+<script>
+const MONTO = 200;
+const TOTAL = 5000;
+
+const porcentaje = (MONTO / TOTAL) * 100;
+document.getElementById("liquid").style.height = porcentaje + "%";
+document.getElementById("amountText").innerText =
+  `${MONTO} USD / ${TOTAL} USD (${Math.round(porcentaje)}%)`;
+
+function openProgress() {
+  document.getElementById("progressPanel").classList.add("open");
+  document.getElementById("overlay").classList.add("open");
+}
+
+function closeProgress() {
+  document.getElementById("progressPanel").classList.remove("open");
+  document.getElementById("overlay").classList.remove("open");
+}
+</script>
+
+</body>
+</html>    }
 
     /* JARRO */
     .jar {

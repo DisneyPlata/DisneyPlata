@@ -50,15 +50,35 @@ p { opacity: 0.85; margin-bottom: 20px; }
   border-radius: 16px 16px 0 0;
 }
 
+/* LIQUIDO */
 .liquid {
   position: absolute;
   bottom: 0;
   width: 100%;
   height: 0%;
   background: linear-gradient(180deg, #ffd700, #ffae00);
-  transition: height 1s ease;
+  transition: height 1.4s ease;
 }
 
+/* MONEDAS */
+.coin {
+  position: absolute;
+  top: -30px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #fff6b0, #ffb700);
+  animation: fall 1.4s ease-in forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(360px);
+    opacity: 0;
+  }
+}
+
+/* INFO */
 .amount {
   margin-top: 14px;
   font-weight: bold;
@@ -73,65 +93,6 @@ p { opacity: 0.85; margin-bottom: 20px; }
 }
 
 .alias strong { color: #ffd700; }
-
-/* BOTÓN */
-.progress-btn {
-  position: fixed;
-  bottom: 16px;
-  padding: 14px 24px;
-  border-radius: 999px;
-  background: #ffae00;
-  color: black;
-  border: none;
-  font-weight: bold;
-}
-
-/* OVERLAY */
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  display: none;
-}
-
-/* PANEL */
-.progress-panel {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 80%;
-  background: #0f2027;
-  border-radius: 24px 24px 0 0;
-  transform: translateY(100%);
-  transition: transform 0.3s ease;
-  padding: 16px;
-  overflow-y: auto;
-}
-
-.progress-panel.open {
-  transform: translateY(0);
-}
-
-.overlay.open {
-  display: block;
-}
-
-.progress-item {
-  background: rgba(255,255,255,0.08);
-  border-radius: 16px;
-  overflow: hidden;
-}
-
-.progress-item img {
-  width: 100%;
-  aspect-ratio: 9 / 16;
-  object-fit: cover;
-}
-
-.progress-text {
-  padding: 12px;
-}
 </style>
 </head>
 
@@ -140,7 +101,7 @@ p { opacity: 0.85; margin-bottom: 20px; }
 <h1>💰 Rumbo a Disney</h1>
 <p>Jarro de aportes – objetivo 5.000 USD</p>
 
-<div class="jar">
+<div class="jar" id="jar">
   <div class="liquid" id="liquid"></div>
 </div>
 
@@ -148,43 +109,43 @@ p { opacity: 0.85; margin-bottom: 20px; }
 
 <div class="alias">
   Alias para aportar<br>
-  <strong>mateoadisney</strong><br>
+  <strong>mateo.cappelluti.mp</strong><br>
   Destino: Disney ✨
 </div>
 
-<button class="progress-btn" onclick="openProgress()">Progresos</button>
-
-<div class="overlay" id="overlay" onclick="closeProgress()"></div>
-
-<div class="progress-panel" id="progressPanel">
-  <h3>📸 Progresos</h3>
-
-  <div class="progress-item">
-    <img src="progreso1.jpg">
-    <div class="progress-text">
-      Saqué turno de VISA para febrero – 12/01 🎟️🇺🇸
-    </div>
-  </div>
-</div>
-
 <script>
+/* CONFIG */
 const MONTO = 200;
 const TOTAL = 5000;
+const JAR = document.getElementById("jar");
+const LIQUID = document.getElementById("liquid");
 
-const porcentaje = (MONTO / TOTAL) * 100;
-document.getElementById("liquid").style.height = porcentaje + "%";
+const porcentaje = Math.min((MONTO / TOTAL) * 100, 100);
+
+/* TEXTO */
 document.getElementById("amountText").innerText =
   `${MONTO} USD / ${TOTAL} USD (${Math.round(porcentaje)}%)`;
 
-function openProgress() {
-  document.getElementById("progressPanel").classList.add("open");
-  document.getElementById("overlay").classList.add("open");
+/* MONEDAS */
+function dropCoins() {
+  for (let i = 0; i < 14; i++) {
+    const coin = document.createElement("div");
+    coin.className = "coin";
+    coin.style.left = Math.random() * 160 + "px";
+    coin.style.animationDelay = (Math.random() * 0.6) + "s";
+    JAR.appendChild(coin);
+
+    setTimeout(() => coin.remove(), 1600);
+  }
 }
 
-function closeProgress() {
-  document.getElementById("progressPanel").classList.remove("open");
-  document.getElementById("overlay").classList.remove("open");
-}
+/* INICIO */
+window.onload = () => {
+  dropCoins();
+  setTimeout(() => {
+    LIQUID.style.height = porcentaje + "%";
+  }, 800);
+};
 </script>
 
 </body>

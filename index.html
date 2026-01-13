@@ -6,27 +6,27 @@
 <title>Rumbo a Disney</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  font-family: system-ui, sans-serif;
-}
-
 body {
   margin: 0;
   min-height: 100vh;
   background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+  font-family: system-ui, sans-serif;
+  color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  color: white;
-  overflow-x: hidden;
+  padding: 20px;
 }
 
-h1 { margin: 0; }
-p { opacity: 0.85; margin-bottom: 20px; }
+h1 { margin-bottom: 20px; }
 
 /* JARRO */
+#jarroPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .jar {
   position: relative;
   width: 200px;
@@ -35,6 +35,7 @@ p { opacity: 0.85; margin-bottom: 20px; }
   border-radius: 0 0 24px 24px;
   overflow: hidden;
   background: rgba(255,255,255,0.05);
+  margin-bottom: 10px;
 }
 
 .jar::before {
@@ -50,7 +51,6 @@ p { opacity: 0.85; margin-bottom: 20px; }
   border-radius: 16px 16px 0 0;
 }
 
-/* LIQUIDO */
 .liquid {
   position: absolute;
   bottom: 0;
@@ -71,18 +71,10 @@ p { opacity: 0.85; margin-bottom: 20px; }
   animation: fall 1.4s ease-in forwards;
 }
 
-@keyframes fall {
-  to {
-    transform: translateY(360px);
-    opacity: 0;
-  }
-}
+@keyframes fall { to { transform: translateY(360px); opacity: 0; } }
 
 /* INFO */
-.amount {
-  margin-top: 14px;
-  font-weight: bold;
-}
+.amount { margin-top: 14px; font-weight: bold; }
 
 .alias {
   margin-top: 20px;
@@ -94,12 +86,11 @@ p { opacity: 0.85; margin-bottom: 20px; }
 
 .alias strong { color: #ffd700; }
 
-/* BOTON DE PROGRESO */
-#progresoBtn {
-  margin-top: 25px;
+/* BOTONES */
+button {
+  margin-top: 20px;
   padding: 10px 20px;
   font-size: 16px;
-  background-color: #ff6f61;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -107,18 +98,27 @@ p { opacity: 0.85; margin-bottom: 20px; }
   transition: background 0.3s;
 }
 
-#progresoBtn:hover {
-  background-color: #ff3b2f;
+#progresoBtn { background-color: #ff6f61; }
+#progresoBtn:hover { background-color: #ff3b2f; }
+
+#volverBtn { background-color: #555; }
+#volverBtn:hover { background-color: #777; }
+
+/* FEED */
+#feedPage {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
-/* FEED DE PROGRESOS */
 #feed {
-  margin-top: 15px;
-  width: 90%;
-  max-width: 360px;
+  width: 100%;
+  max-width: 400px;
   display: flex;
   flex-direction: column;
   gap: 15px;
+  margin-bottom: 20px;
 }
 
 .progresoItem {
@@ -139,40 +139,46 @@ p { opacity: 0.85; margin-bottom: 20px; }
 <body>
 
 <h1>💰 Rumbo a Disney</h1>
-<p>Jarro de aportes – objetivo 5.000 USD</p>
 
-<div class="jar" id="jar">
-  <div class="liquid" id="liquid"></div>
+<!-- PAGINA DEL JARRO -->
+<div id="jarroPage">
+  <p>Jarro de aportes – objetivo 5.000 USD</p>
+
+  <div class="jar" id="jar">
+    <div class="liquid" id="liquid"></div>
+  </div>
+
+  <div class="amount" id="amountText"></div>
+
+  <div class="alias">
+    Alias para aportar<br>
+    <strong>mateoadisney</strong><br>
+    Destino: Disney ✨
+  </div>
+
+  <button id="progresoBtn">Ver progreso</button>
+
+  <div id="logro">Saqué turno para la visa en febrero 12/01</div>
 </div>
 
-<div class="amount" id="amountText"></div>
-
-<div class="alias">
-  Alias para aportar<br>
-  <strong>mateoadisney</strong><br>
-  Destino: Disney ✨
+<!-- PAGINA DEL FEED -->
+<div id="feedPage">
+  <h1>📸 Progresos</h1>
+  <div id="feed"></div>
+  <button id="volverBtn">⬅ Volver</button>
 </div>
-
-<!-- BOTON DE PROGRESO -->
-<button id="progresoBtn">Ver progreso</button>
-
-<!-- FEED DE PROGRESOS -->
-<div id="feed"></div>
 
 <script>
-/* CONFIG */
+/* CONFIGURACION DEL JARRO */
 const MONTO = 200;
 const TOTAL = 5000;
 const JAR = document.getElementById("jar");
 const LIQUID = document.getElementById("liquid");
 
 const porcentaje = Math.min((MONTO / TOTAL) * 100, 100);
-
-/* TEXTO MONTO */
 document.getElementById("amountText").innerText =
   `${MONTO} USD / ${TOTAL} USD (${Math.round(porcentaje)}%)`;
 
-/* MONEDAS */
 function dropCoins() {
   for (let i = 0; i < 14; i++) {
     const coin = document.createElement("div");
@@ -180,49 +186,46 @@ function dropCoins() {
     coin.style.left = Math.random() * 160 + "px";
     coin.style.animationDelay = (Math.random() * 0.6) + "s";
     JAR.appendChild(coin);
-
     setTimeout(() => coin.remove(), 1600);
   }
 }
 
-/* FEED DE PROGRESOS */
-const feed = document.getElementById("feed");
-const progresoBtn = document.getElementById("progresoBtn");
+window.onload = () => {
+  dropCoins();
+  setTimeout(() => { LIQUID.style.height = porcentaje + "%"; }, 800);
+};
 
-// Datos del primer progreso
+/* FEED DE PROGRESOS */
 const progresos = [
   {
-    img: "https://raw.githubusercontent.com/TU_USUARIO/TU_REPO/main/progreso1.jpg",
+    img: "https://TU_USUARIO.github.io/TU_REPO/progreso1.jpg",
     texto: "Saqué turno para la visa en febrero 12/01"
   }
 ];
 
-let mostrado = false;
-
-progresoBtn.addEventListener("click", () => {
-  if (!mostrado) {
-    progresos.forEach(p => {
-      const item = document.createElement("div");
-      item.className = "progresoItem";
-      item.innerHTML = `<img src="${p.img}" alt="Progreso"><div>${p.texto}</div>`;
-      feed.appendChild(item);
-    });
-    progresoBtn.innerText = "Ocultar progreso";
-    mostrado = true;
-  } else {
-    feed.innerHTML = "";
-    progresoBtn.innerText = "Ver progreso";
-    mostrado = false;
-  }
+const feed = document.getElementById("feed");
+progresos.forEach(p => {
+  const item = document.createElement("div");
+  item.className = "progresoItem";
+  item.innerHTML = `<img src="${p.img}" alt="Progreso"><div>${p.texto}</div>`;
+  feed.appendChild(item);
 });
 
-/* INICIO */
-window.onload = () => {
-  dropCoins();
-  setTimeout(() => {
-    LIQUID.style.height = porcentaje + "%";
-  }, 800);
-};
+/* BOTONES PARA CAMBIAR DE "PAGINA" */
+const progresoBtn = document.getElementById("progresoBtn");
+const volverBtn = document.getElementById("volverBtn");
+const jarroPage = document.getElementById("jarroPage");
+const feedPage = document.getElementById("feedPage");
+
+progresoBtn.addEventListener("click", () => {
+  jarroPage.style.display = "none";
+  feedPage.style.display = "flex";
+});
+
+volverBtn.addEventListener("click", () => {
+  feedPage.style.display = "none";
+  jarroPage.style.display = "flex";
+});
 </script>
 
 </body>

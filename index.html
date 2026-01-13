@@ -159,32 +159,38 @@ const amountText = document.getElementById("amountText");
 
 amountText.innerText = `${MONTO} USD / ${TOTAL} USD (${Math.round((MONTO/TOTAL)*100)}%)`;
 
-/* MONEDAS APILADAS */
-const coinSize = 22;
-const jarWidth = JAR.clientWidth;
-const jarHeight = JAR.clientHeight;
-const cols = Math.floor(jarWidth / coinSize);
-const rows = Math.floor(jarHeight / coinSize);
-const totalCoins = cols * rows;
-const coinsToShow = Math.round(totalCoins * (MONTO/TOTAL));
+// APILADO DE MONEDAS
+window.onload = () => {
+  const jarWidth = JAR.clientWidth;
+  const jarHeight = JAR.clientHeight;
+  const coinSize = 22;
 
-for(let i=0;i<coinsToShow;i++){
-  const coin = document.createElement("div");
-  coin.className = "coin";
-  
-  const col = i % cols;
-  const row = Math.floor(i / cols);
+  const cols = Math.floor(jarWidth / coinSize);
+  const rows = Math.floor(jarHeight / coinSize);
+  const totalCoins = cols * rows;
+  const coinsToShow = Math.round(totalCoins * (MONTO/TOTAL));
 
-  const x = col * coinSize + Math.random()*4;
-  const y = jarHeight - ((row+1) * coinSize) - Math.random()*4;
+  // Separación uniforme para llenar todo el ancho
+  const spacingX = (jarWidth - coinSize) / (cols - 1);
 
-  coin.style.left = x + "px";
-  coin.style.top = y + "px";
+  for(let i=0; i<coinsToShow; i++){
+    const coin = document.createElement("div");
+    coin.className = "coin";
 
-  coin.style.animationDelay = (Math.random()*0.5) + "s";
+    const col = i % cols;
+    const row = Math.floor(i / cols);
 
-  JAR.appendChild(coin);
-}
+    const x = col * spacingX;
+    const y = jarHeight - ((row+1) * coinSize);
+
+    coin.style.left = x + "px";
+    coin.style.top = y + "px";
+
+    coin.style.animationDelay = (Math.random()*0.5) + "s";
+
+    JAR.appendChild(coin);
+  }
+};
 
 /* FEED DE PROGRESOS */
 const progresos = [

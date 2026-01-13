@@ -25,7 +25,6 @@ h1 {
   text-shadow: 0 0 8px rgba(255,255,255,0.4);
 }
 
-/* PAGINA DEL JARRO */
 #jarroPage { display: flex; flex-direction: column; align-items: center; }
 
 .jar {
@@ -72,7 +71,6 @@ h1 {
 
 .alias strong { color: #ffd700; }
 
-/* MONEDAS */
 .coin {
   position: absolute;
   width: 22px;
@@ -85,7 +83,6 @@ h1 {
 
 @keyframes drop { to { transform: translateY(0); } }
 
-/* BOTONES */
 button {
   margin-top: 20px;
   padding: 12px 25px;
@@ -105,7 +102,6 @@ button {
 #volverBtn { background-color: #555; }
 #volverBtn:hover { background-color: #777; transform: scale(1.05); }
 
-/* FEED */
 #feedPage { display: none; flex-direction: column; align-items: center; width: 100%; }
 
 #feed {
@@ -141,7 +137,6 @@ button {
 
 <h1>💰 Rumbo a Disney</h1>
 
-<!-- PAGINA DEL JARRO -->
 <div id="jarroPage">
   <p>Jarro de aportes – objetivo 5.000 USD</p>
 
@@ -155,11 +150,9 @@ button {
     Destino: Disney ✨
   </div>
 
-  <!-- BOTON VER PROGRESO -->
   <button id="progresoBtn">Ver progreso</button>
 </div>
 
-<!-- PAGINA DEL FEED -->
 <div id="feedPage">
   <h1>📸 Progresos</h1>
   <div id="feed"></div>
@@ -167,32 +160,33 @@ button {
 </div>
 
 <script>
-/* ===== CONFIGURACION DEL JARRO ===== */
-// MONTO INICIAL: Cambia este valor dentro del HTML
-let MONTO = 2000;  // <- AQUÍ actualizas lo recaudado
+/* ===== CONFIGURACION ===== */
+// SOLO CAMBIA ESTE NUMERO PARA ACTUALIZAR EL MONTO
+let MONTO = 350;  // <- Cambia aquí el monto recaudado
 const TOTAL = 5000;
 
 const JAR = document.getElementById("jar");
 const amountText = document.getElementById("amountText");
 
-// FUNCION PARA ACTUALIZAR EL JARRO
+// MONEDAS YA EXISTENTES EN EL JARRO (para efecto dinámico)
+let monedasActuales = 0;
+
 function actualizarJarro() {
-  JAR.innerHTML = ""; // Limpiar monedas
   const porcentaje = Math.min(MONTO/TOTAL,1);
   amountText.innerText = `${MONTO} USD / ${TOTAL} USD (${Math.round(porcentaje*100)}%)`;
 
   const jarWidth = JAR.clientWidth;
   const jarHeight = JAR.clientHeight;
   const coinSize = 22;
-
   const cols = Math.floor(jarWidth / coinSize);
   const rows = Math.floor(jarHeight / coinSize);
   const totalCoins = cols * rows;
-  const coinsToShow = Math.round(totalCoins * porcentaje);
+  const coinsObjetivo = Math.round(totalCoins * porcentaje);
 
   const spacingX = (jarWidth - coinSize)/(cols-1);
 
-  for(let i=0;i<coinsToShow;i++){
+  // Solo añadir las monedas que faltan
+  for(let i=monedasActuales; i<coinsObjetivo; i++){
     const coin = document.createElement("div");
     coin.className = "coin";
 
@@ -208,9 +202,10 @@ function actualizarJarro() {
 
     JAR.appendChild(coin);
   }
+  monedasActuales = coinsObjetivo;
 }
 
-// CARGAR JARRO INICIAL
+// CARGAR JARRO DINÁMICO
 window.onload = () => { actualizarJarro(); };
 
 /* ===== FEED DE PROGRESOS ===== */

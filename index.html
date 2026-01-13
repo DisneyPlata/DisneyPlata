@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rumbo a Disney</title>
-
 <style>
 body {
   margin: 0;
@@ -34,7 +33,7 @@ h1 { margin-bottom: 20px; }
   border: 6px solid rgba(255,255,255,0.7);
   border-radius: 0 0 24px 24px;
   overflow: hidden;
-  background: rgba(255,255,255,0.05);
+  background: rgba(0,0,0,0.1);
   margin-bottom: 10px;
 }
 
@@ -51,28 +50,6 @@ h1 { margin-bottom: 20px; }
   border-radius: 16px 16px 0 0;
 }
 
-.liquid {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 0%;
-  background: linear-gradient(180deg, #ffd700, #ffae00);
-  transition: height 1.4s ease;
-}
-
-/* MONEDAS */
-.coin {
-  position: absolute;
-  top: -30px;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #fff6b0, #ffb700);
-  animation: fall 1.4s ease-in forwards;
-}
-
-@keyframes fall { to { transform: translateY(360px); opacity: 0; } }
-
 .amount { margin-top: 14px; font-weight: bold; }
 
 .alias {
@@ -84,6 +61,18 @@ h1 { margin-bottom: 20px; }
 }
 
 .alias strong { color: #ffd700; }
+
+/* MONEDAS */
+.coin {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #fff6b0, #ffb700);
+  animation: fall 1.2s ease-in forwards;
+}
+
+@keyframes fall { to { transform: translateY(360px) rotate(360deg); opacity: 1; } }
 
 /* BOTONES */
 button {
@@ -115,7 +104,7 @@ button {
   width: 100%;
   max-width: 400px;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse; /* lo nuevo arriba */
   gap: 15px;
   margin-bottom: 20px;
 }
@@ -125,6 +114,9 @@ button {
   padding: 10px;
   border-radius: 10px;
   text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp 0.5s forwards;
 }
 
 .progresoItem img {
@@ -132,9 +124,12 @@ button {
   border-radius: 10px;
   margin-bottom: 8px;
 }
+
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
 </style>
 </head>
-
 <body>
 
 <h1>💰 Rumbo a Disney</h1>
@@ -143,9 +138,7 @@ button {
 <div id="jarroPage">
   <p>Jarro de aportes – objetivo 5.000 USD</p>
 
-  <div class="jar" id="jar">
-    <div class="liquid" id="liquid"></div>
-  </div>
+  <div class="jar" id="jar"></div>
 
   <div class="amount" id="amountText"></div>
 
@@ -170,26 +163,35 @@ button {
 const MONTO = 200;
 const TOTAL = 5000;
 const JAR = document.getElementById("jar");
-const LIQUID = document.getElementById("liquid");
+const amountText = document.getElementById("amountText");
 
 const porcentaje = Math.min((MONTO / TOTAL) * 100, 100);
-document.getElementById("amountText").innerText =
-  `${MONTO} USD / ${TOTAL} USD (${Math.round(porcentaje)}%)`;
+amountText.innerText = `${MONTO} USD / ${TOTAL} USD (${Math.round(porcentaje)}%)`;
 
-function dropCoins() {
-  for (let i = 0; i < 14; i++) {
+/* FUNCION PARA CAER MONEDAS */
+function dropCoins(count = 30) {
+  const alturaJarro = JAR.clientHeight;
+  const anchoJarro = JAR.clientWidth;
+
+  for (let i = 0; i < count; i++) {
     const coin = document.createElement("div");
     coin.className = "coin";
-    coin.style.left = Math.random() * 160 + "px";
-    coin.style.animationDelay = (Math.random() * 0.6) + "s";
+    coin.style.left = Math.random() * (anchoJarro - 22) + "px";
+    coin.style.top = "-30px";
+    coin.style.animationDelay = (Math.random() * 1) + "s";
     JAR.appendChild(coin);
-    setTimeout(() => coin.remove(), 1600);
+
+    setTimeout(() => {
+      coin.style.top = (alturaJarro - 22 - (Math.random() * alturaJarro * porcentaje / 100)) + "px";
+    }, 50);
+
+    setTimeout(() => coin.remove(), 2500);
   }
 }
 
+/* INICIO */
 window.onload = () => {
-  dropCoins();
-  setTimeout(() => { LIQUID.style.height = porcentaje + "%"; }, 800);
+  dropCoins(50);
 };
 
 /* FEED DE PROGRESOS */
@@ -201,14 +203,15 @@ const progresos = [
 ];
 
 const feed = document.getElementById("feed");
-progresos.forEach(p => {
+progresos.forEach((p, i) => {
   const item = document.createElement("div");
   item.className = "progresoItem";
+  item.style.animationDelay = `${i * 0.2}s`;
   item.innerHTML = `<img src="${p.img}" alt="Progreso"><div>${p.texto}</div>`;
   feed.appendChild(item);
 });
 
-/* BOTONES PARA CAMBIAR DE "PAGINA" */
+/* BOTONES PAGINAS */
 const progresoBtn = document.getElementById("progresoBtn");
 const volverBtn = document.getElementById("volverBtn");
 const jarroPage = document.getElementById("jarroPage");
@@ -224,6 +227,5 @@ volverBtn.addEventListener("click", () => {
   jarroPage.style.display = "flex";
 });
 </script>
-
 </body>
 </html>

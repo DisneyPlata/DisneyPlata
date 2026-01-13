@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jarro Disney</title>
+<title>Rumbo a Disney</title>
 
 <style>
 * {
@@ -13,19 +13,18 @@
 
 body {
   margin: 0;
-  height: 100vh;
+  min-height: 100vh;
   background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   color: white;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
-/* TEXTO */
 h1 { margin: 0; }
-p { opacity: 0.85; }
+p { opacity: 0.85; margin-bottom: 20px; }
 
 /* JARRO */
 .jar {
@@ -35,7 +34,7 @@ p { opacity: 0.85; }
   border: 6px solid rgba(255,255,255,0.7);
   border-radius: 0 0 24px 24px;
   overflow: hidden;
-  margin-top: 20px;
+  background: rgba(255,255,255,0.05);
 }
 
 .jar::before {
@@ -60,9 +59,8 @@ p { opacity: 0.85; }
   transition: height 1s ease;
 }
 
-/* INFO */
 .amount {
-  margin-top: 12px;
+  margin-top: 14px;
   font-weight: bold;
 }
 
@@ -119,7 +117,6 @@ p { opacity: 0.85; }
   display: block;
 }
 
-/* PROGRESO */
 .progress-item {
   background: rgba(255,255,255,0.08);
   border-radius: 16px;
@@ -141,7 +138,7 @@ p { opacity: 0.85; }
 <body>
 
 <h1>💰 Rumbo a Disney</h1>
-<p>Objetivo: 5.000 USD</p>
+<p>Jarro de aportes – objetivo 5.000 USD</p>
 
 <div class="jar">
   <div class="liquid" id="liquid"></div>
@@ -151,7 +148,8 @@ p { opacity: 0.85; }
 
 <div class="alias">
   Alias para aportar<br>
-  <strong>mateo.cappelluti.mp</strong>
+  <strong>mateoadisney</strong><br>
+  Destino: Disney ✨
 </div>
 
 <button class="progress-btn" onclick="openProgress()">Progresos</button>
@@ -187,332 +185,6 @@ function closeProgress() {
   document.getElementById("progressPanel").classList.remove("open");
   document.getElementById("overlay").classList.remove("open");
 }
-</script>
-
-</body>
-</html>    }
-
-    /* JARRO */
-    .jar {
-      position: relative;
-      width: 200px;
-      height: 320px;
-      border: 6px solid #ffffffaa;
-      border-radius: 0 0 24px 24px;
-      overflow: hidden;
-      background: rgba(255,255,255,0.05);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-    }
-
-    .jar::before {
-      content: "";
-      position: absolute;
-      top: -18px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 120px;
-      height: 18px;
-      border: 6px solid #ffffffaa;
-      border-bottom: none;
-      border-radius: 16px 16px 0 0;
-    }
-
-    .liquid {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      height: 0%;
-      background: linear-gradient(180deg, #ffd700, #ffae00);
-      transition: height 1.2s ease;
-    }
-
-    .liquid::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      width: 100%;
-      height: 12px;
-      background: rgba(255,255,255,0.35);
-      filter: blur(6px);
-    }
-
-    .amount {
-      margin-top: 16px;
-      font-size: 1.2rem;
-      font-weight: 600;
-    }
-
-    .alias {
-      margin-top: 32px;
-      padding: 12px 18px;
-      background: rgba(0,0,0,0.35);
-      border-radius: 12px;
-      text-align: center;
-    }
-
-    .alias strong {
-      font-size: 1.1rem;
-      color: #ffd700;
-    }
-
-    .goal {
-      margin-top: 6px;
-      font-size: 0.9rem;
-      opacity: 0.8;
-    }
-
-    /* BOTÓN PROGRESOS */
-    .progress-btn {
-      position: fixed;
-      bottom: 16px;
-      background: #ffae00;
-      color: #000;
-      padding: 14px 22px;
-      border-radius: 999px;
-      font-weight: 700;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-    }
-
-    /* PANEL PROGRESOS */
-    .progress-panel {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 85%;
-      background: #0f2027;
-      border-radius: 24px 24px 0 0;
-      transform: translateY(100%);
-      transition: transform 0.4s ease;
-      overflow-y: auto;
-      padding: 16px;
-    }
-
-    .progress-panel.open {
-      transform: translateY(0);
-    }
-
-    .progress-header {
-      text-align: center;
-      font-weight: 700;
-      margin-bottom: 12px;
-    }
-
-    .progress-item {
-      margin-bottom: 24px;
-      background: rgba(255,255,255,0.05);
-      border-radius: 16px;
-      overflow: hidden;
-      animation: fadeUp 0.6s ease;
-    }
-
-    .progress-item img {
-      width: 100%;
-      aspect-ratio: 9 / 16;
-      object-fit: cover;
-    }
-
-    .progress-text {
-      padding: 12px;
-      font-size: 0.95rem;
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
-</head>
-
-<body>
-
-  <h1>💰 Rumbo a Disney</h1>
-  <p>Jarro de aportes – objetivo 5.000 USD</p>
-
-  <div class="jar">
-    <div class="liquid" id="liquid"></div>
-  </div>
-
-  <div class="amount" id="amountText">0 USD / 5000 USD</div>
-
-  <div class="alias">
-    Alias para aportar:<br />
-    <strong>mateo.cappelluti.mp</strong>
-    <div class="goal">Destino: Disney ✨</div>
-  </div>
-
-  <!-- BOTÓN -->
-  <button class="progress-btn" onclick="toggleProgress()">Progresos</button>
-
-  <!-- PANEL PROGRESOS -->
-  <div class="progress-panel" id="progressPanel">
-    <div class="progress-header">📸 Progresos</div>
-
-    <!-- PRIMER LOGRO -->
-    <div class="progress-item">
-      <img src="progreso1.jpg">
-      <div class="progress-text">
-        Saqué turno de VISA para febrero – 12/01 🎟️🇺🇸
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // 🔧 CONFIGURACIÓN MANUAL
-    const MONTO_MANUAL = 200; // USD actuales
-    const TOTAL = 5000;
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const porcentaje = Math.min((MONTO_MANUAL / TOTAL) * 100, 100);
-
-      const liquid = document.getElementById('liquid');
-      const amountText = document.getElementById('amountText');
-
-      liquid.style.height = porcentaje + '%';
-      amountText.innerText = `${MONTO_MANUAL} USD / ${TOTAL} USD (${Math.round(porcentaje)}%)`;
-    });
-
-    function toggleProgress() {
-      document.getElementById('progressPanel').classList.toggle('open');
-    }
-  </script>
-
-</body>
-</html>    }
-
-    .jar {
-      position: relative;
-      width: 200px;
-      height: 320px;
-      border: 6px solid #ffffffaa;
-      border-radius: 0 0 24px 24px;
-      overflow: hidden;
-      background: rgba(255,255,255,0.05);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-    }
-
-    .jar::before {
-      content: "";
-      position: absolute;
-      top: -18px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 120px;
-      height: 18px;
-      border: 6px solid #ffffffaa;
-      border-bottom: none;
-      border-radius: 16px 16px 0 0;
-      background: transparent;
-    }
-
-    .liquid {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      height: 0%;
-      background: linear-gradient(180deg, #ffd700, #ffae00);
-      transition: height 1.2s ease;
-    }
-
-    .liquid::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      width: 100%;
-      height: 12px;
-      background: rgba(255,255,255,0.35);
-      filter: blur(6px);
-    }
-
-    .amount {
-      margin-top: 16px;
-      font-size: 1.2rem;
-      font-weight: 600;
-    }
-
-    .controls {
-      margin-top: 16px;
-      display: flex;
-      gap: 8px;
-    }
-
-    input {
-      padding: 8px;
-      border-radius: 8px;
-      border: none;
-      width: 120px;
-    }
-
-    button {
-      padding: 8px 14px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      background: #ffae00;
-      font-weight: 600;
-    }
-
-    button:hover {
-      opacity: 0.9;
-    }
-
-    .alias {
-      margin-top: 32px;
-      padding: 12px 18px;
-      background: rgba(0,0,0,0.35);
-      border-radius: 12px;
-      text-align: center;
-    }
-
-    .alias strong {
-      font-size: 1.1rem;
-      color: #ffd700;
-    }
-
-    .goal {
-      margin-top: 6px;
-      font-size: 0.9rem;
-      opacity: 0.8;
-    }
-  </style>
-</head>
-<body>
-
-  <h1>💰 Rumbo a Disney</h1>
-  <p>Jarro de aportes – objetivo 5.000 USD</p>
-
-  <div class="jar">
-    <div class="liquid" id="liquid"></div>
-  </div>
-
-  <div class="amount" id="amountText">0 USD / 5000 USD</div>
-
-  
-
-  <div class="alias">
-    Alias para aportar:<br />
-    <strong>mateoadisney</strong>
-    <div class="goal">Destino: Disney ✨</div>
-  </div>
-
-  <script>
-  // 🔧 CONFIGURACIÓN MANUAL
-  // Cambiá ESTE valor (en USD) cada vez que recibas dinero
-  const MONTO_MANUAL = 200; // USD actuales
-
-  const TOTAL = 5000;
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const porcentaje = Math.min((MONTO_MANUAL / TOTAL) * 100, 100);
-
-    const liquid = document.getElementById('liquid');
-    const amountText = document.getElementById('amountText');
-
-    liquid.style.height = porcentaje + '%';
-    amountText.innerText = `${MONTO_MANUAL} USD / ${TOTAL} USD (${Math.round(porcentaje)}%)`;
-  });
 </script>
 
 </body>

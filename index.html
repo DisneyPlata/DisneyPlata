@@ -93,6 +93,43 @@ p { opacity: 0.85; margin-bottom: 20px; }
 }
 
 .alias strong { color: #ffd700; }
+
+/* BOTON DE PROGRESO */
+#progresoBtn {
+  margin-top: 25px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #ff6f61;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+  transition: background 0.3s;
+}
+
+#progresoBtn:hover {
+  background-color: #ff3b2f;
+}
+
+/* IMAGEN DE PROGRESO */
+#progresoImg {
+  display: none;
+  max-width: 300px;
+  margin-top: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+/* LOGRO */
+#logro {
+  margin-top: 10px;
+  background: rgba(255,255,255,0.1);
+  padding: 10px 15px;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 300px;
+  font-size: 15px;
+}
 </style>
 </head>
 
@@ -109,9 +146,15 @@ p { opacity: 0.85; margin-bottom: 20px; }
 
 <div class="alias">
   Alias para aportar<br>
-  <strong>mateo.cappelluti.mp</strong><br>
+  <strong>mateoadisney</strong><br>
   Destino: Disney ✨
 </div>
+
+<!-- BOTON DE PROGRESO -->
+<button id="progresoBtn">Ver progreso</button>
+<img id="progresoImg" src="https://raw.githubusercontent.com/TU_USUARIO/TU_REPO/main/progreso1.jpg" alt="Progreso">
+
+<div id="logro">Saqué turno para la visa en febrero 12/01</div>
 
 <script>
 /* CONFIG */
@@ -138,6 +181,20 @@ function dropCoins() {
     setTimeout(() => coin.remove(), 1600);
   }
 }
+
+/* BOTON PROGRESO */
+const progresoBtn = document.getElementById("progresoBtn");
+const progresoImg = document.getElementById("progresoImg");
+
+progresoBtn.addEventListener("click", () => {
+  if (progresoImg.style.display === "none") {
+    progresoImg.style.display = "block";
+    progresoBtn.innerText = "Ocultar progreso";
+  } else {
+    progresoImg.style.display = "none";
+    progresoBtn.innerText = "Ver progreso";
+  }
+});
 
 /* INICIO */
 window.onload = () => {

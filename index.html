@@ -14,7 +14,6 @@
   --bg3:#1f4e63;
   --gold:#ffd700;
   --softGold:#ffef9c;
-  --card:rgba(0,0,0,.38);
 }
 
 /* Reset */
@@ -27,45 +26,20 @@ body{
   color:white;
   overscroll-behavior:none;
   overflow-x:hidden;
-}
-
-/* Contenedor principal */
-.app{
-  width:100vw;
-  height:100dvh;
-  position:relative;
   display:flex;
-  overflow:hidden;
-}
-
-/* Páginas */
-.page{
-  flex-shrink:0;
-  width:100%;
-  height:100%;
-  display:flex;
-  flex-direction:column;
+  justify-content:center;
   align-items:center;
+  flex-direction:column;
   padding:16px;
-  transition:transform .6s ease-in-out;
-}
-
-/* Feed inicialmente fuera de pantalla */
-#feedPage{
-  transform:translateX(100%);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  width:100%;
-  height:100%;
 }
 
 /* Títulos */
 h1{
   font-family:'Quicksand',sans-serif;
-  font-size:1.4rem;
-  margin-bottom:10px;
+  font-size:1.6rem;
+  margin-bottom:16px;
   text-shadow:0 0 12px rgba(255,215,0,.9),0 0 22px rgba(255,215,0,.5);
+  text-align:center;
 }
 
 /* JARRO */
@@ -78,6 +52,7 @@ h1{
   overflow:hidden;
   background:rgba(255,215,0,.04);
   box-shadow:0 0 35px rgba(255,215,0,.7), inset 0 0 24px rgba(255,215,0,.25);
+  margin-bottom:16px;
 }
 
 .jar::before{
@@ -108,8 +83,8 @@ h1{
 @keyframes drop{ to{ transform:translateY(0); } }
 
 /* Textos */
-.amount{ margin-top:10px; font-weight:600; font-size:.95rem; }
-.emotional{ font-size:.85rem; opacity:.9; margin-bottom:6px; }
+.amount{ margin-top:10px; font-weight:600; font-size:1.05rem; text-align:center; }
+.emotional{ font-size:.9rem; opacity:.9; margin-bottom:12px; text-align:center; }
 
 /* Alias */
 .alias{
@@ -118,95 +93,13 @@ h1{
   padding:14px 22px;
   border-radius:20px;
   text-align:center;
-  font-size:.85rem;
+  font-size:.9rem;
   box-shadow:0 0 18px rgba(255,215,0,.6);
 }
 
 .alias strong{ color:var(--gold); }
 
-/* Botones */
-button{
-  margin-top:10px;
-  padding:12px 26px;
-  border:none;
-  border-radius:999px;
-  background:linear-gradient(145deg,#fff2a8,#ffb700);
-  color:#3a2a00;
-  font-weight:600;
-  cursor:pointer;
-  box-shadow:0 0 20px rgba(255,215,0,.8), inset 0 0 6px rgba(255,255,255,.8);
-  transition:.3s;
-}
-
-button:hover{ transform:scale(1.05); }
-
-/* Feed */
-.feed-header{
-  width:100%;
-  display:flex;
-  justify-content:center;
-  margin-bottom:6px;
-}
-
-.feed-container{
-  width:100%;
-  max-width:420px;
-  flex:1;
-  overflow-y:auto;
-  min-height:0;
-  padding:12px 10px 60px;
-  border-radius:20px;
-  background:linear-gradient(180deg, rgba(0,0,0,.2), rgba(0,0,0,.4));
-  box-shadow:0 0 16px rgba(255,215,0,.3);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
-
-/* Tarjetas de progreso */
-.progresoItem{
-  position:relative;
-  background:rgba(0,0,0,.35);
-  padding:16px;
-  border-radius:20px;
-  margin-bottom:18px;
-  font-size:.9rem;
-  line-height:1.4;
-  box-shadow:0 0 16px rgba(255,215,0,.45), inset 0 0 18px rgba(255,215,0,.15);
-  opacity:0;
-  transform:translateY(20px);
-  animation:fadeUp 0.8s forwards;
-}
-
-.progresoItem:nth-child(1){ animation-delay:0.2s; }
-.progresoItem:nth-child(2){ animation-delay:0.4s; }
-.progresoItem:nth-child(3){ animation-delay:0.6s; }
-
-.progresoItem::after{
-  content:"✨";
-  position:absolute;
-  top:-10px;
-  right:14px;
-  font-size:1.1rem;
-  text-shadow:0 0 10px gold;
-  animation:twinkle 2s infinite;
-}
-
-.progresoItem img{
-  width:100%;
-  border-radius:14px;
-  margin-bottom:10px;
-  box-shadow:0 0 14px rgba(255,215,0,.6);
-}
-
-/* Animaciones */
-@keyframes fadeUp{ to{ opacity:1; transform:translateY(0); } }
-@keyframes twinkle{
-  0%,100%{ opacity:0.6; transform:scale(1); }
-  50%{ opacity:1; transform:scale(1.1); }
-}
-
-/* Partículas de fondo */
+/* Partículas mágicas de fondo */
 .star{
   position:absolute;
   width:4px;
@@ -224,36 +117,13 @@ button:hover{ transform:scale(1.05); }
 
 <body>
 
-<div class="app">
-
-  <!-- JARRO -->
-  <div class="page" id="jarroPage">
-    <h1>✨ Rumbo a Disney</h1>
-    <div class="jar" id="jar"></div>
-    <div class="amount" id="amountText"></div>
-    <div class="emotional" id="emotionalText"></div>
-    <div class="alias">
-      Alias para ayudar<br>
-      <strong>mateoadisney</strong>
-    </div>
-    <button onclick="verProgreso()">Ver el camino ✨</button>
-  </div>
-
-  <!-- FEED -->
-  <div class="page" id="feedPage">
-    <div class="feed-header">
-      <button onclick="volver()">⬅ Volver al jarro</button>
-    </div>
-    <h1>✨ El camino mágico</h1>
-    <div class="feed-container" id="feed">
-      <div class="progresoItem">
-        <img src="https://TU_USUARIO.github.io/TU_REPO/progreso1.jpg" alt="Progreso 1">
-        Saqué turno para la visa en febrero (12/01).  
-        El primer paso real para que este sueño empiece a hacerse realidad ✨
-      </div>
-    </div>
-  </div>
-
+<h1>✨ Rumbo a Disney</h1>
+<div class="jar" id="jar"></div>
+<div class="amount" id="amountText"></div>
+<div class="emotional" id="emotionalText"></div>
+<div class="alias">
+  Alias para ayudar<br>
+  <strong>mateoadisney</strong>
 </div>
 
 <script>
@@ -285,16 +155,6 @@ function actualizarJarro(){
     jar.appendChild(c);
   }
   monedasActuales = objetivo;
-}
-
-function verProgreso(){
-  jarroPage.style.transform="translateX(-100%)";
-  feedPage.style.transform="translateX(0)";
-}
-
-function volver(){
-  jarroPage.style.transform="translateX(0)";
-  feedPage.style.transform="translateX(100%)";
 }
 
 /* Partículas flotantes */

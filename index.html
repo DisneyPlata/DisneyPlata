@@ -21,17 +21,17 @@
 
 body{
   margin:0;
-  height:100vh;
+  height:100dvh;
   background:linear-gradient(180deg,var(--bg1),var(--bg2),var(--bg3));
   font-family:'Poppins',sans-serif;
   color:white;
-  overflow:hidden;
+  overscroll-behavior: none;
 }
 
 .app{
   position:relative;
   width:100vw;
-  height:100vh;
+  height:100dvh;
 }
 
 /* ===== PÁGINAS ===== */
@@ -156,7 +156,8 @@ button:hover{ transform:scale(1.05); }
   max-width:420px;
   flex:1;
   overflow-y:auto;
-  padding:12px 10px 60px; /* 🔑 padding extra abajo */
+  min-height:0; /* 🔑 evita glitches con zoom */
+  padding:12px 10px 60px; /* padding extra para ver todo el último item */
 }
 
 /* TARJETAS DE PROGRESO */
@@ -254,7 +255,7 @@ button:hover{ transform:scale(1.05); }
 </div>
 
 <script>
-let MONTO = 200;     // ← ignorado como pediste
+let MONTO = 200;     // ignorado como pediste
 const TOTAL = 5000;
 
 const jar = document.getElementById("jar");

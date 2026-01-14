@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rumbo a Disney</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
@@ -25,19 +26,24 @@ body.light{
 
 body{
   margin:0;
-  min-height:100vh;
   background:linear-gradient(180deg,var(--bg1),var(--bg2),var(--bg3));
   font-family:'Poppins',sans-serif;
   color:var(--text);
   overflow:hidden;
 }
 
+/* CONTENEDOR APP */
+.app{
+  position:relative;
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+}
+
+/* PÁGINAS */
 .page{
   position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
+  inset:0;
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -52,6 +58,7 @@ h1{
   text-shadow:0 0 10px rgba(255,215,0,.5);
 }
 
+/* JARRO */
 .jar{
   position:relative;
   width:220px;
@@ -76,18 +83,22 @@ h1{
   border-radius:16px 16px 0 0;
 }
 
+/* MONEDAS */
 .coin{
   position:absolute;
   width:22px;
   height:22px;
   border-radius:50%;
   background:radial-gradient(circle at 30% 30%,#fff6b0,#ffb700);
-  transform:translateY(-400px);
+  transform:translateY(-420px);
   animation:drop .7s forwards;
 }
 
-@keyframes drop{ to{ transform:translateY(0); } }
+@keyframes drop{
+  to{ transform:translateY(0); }
+}
 
+/* TEXTOS */
 .amount{
   margin-top:12px;
   font-weight:600;
@@ -99,16 +110,18 @@ h1{
   opacity:.9;
 }
 
+/* CTA */
 .alias{
   margin-top:18px;
   background:var(--card);
-  padding:14px 20px;
+  padding:14px 22px;
   border-radius:14px;
   text-align:center;
 }
 
 .alias strong{ color:#ffd700; }
 
+/* BOTONES */
 button{
   margin-top:20px;
   padding:12px 26px;
@@ -123,9 +136,10 @@ button{
 
 button:hover{ transform:scale(1.06); }
 
+/* FEED */
 #feed{
   width:100%;
-  max-width:400px;
+  max-width:420px;
   display:flex;
   flex-direction:column-reverse;
   gap:16px;
@@ -156,110 +170,124 @@ button:hover{ transform:scale(1.06); }
   height:4px;
   background:#ffd700;
   border-radius:50%;
-  animation:float 6s linear infinite;
   opacity:.6;
+  animation:float 6s linear infinite;
 }
 
 @keyframes float{
-  from{transform:translateY(100vh);}
-  to{transform:translateY(-10vh);}
+  from{ transform:translateY(100vh); }
+  to{ transform:translateY(-10vh); }
 }
 </style>
 </head>
 
 <body>
 
-<div class="page" id="jarroPage">
-  <h1>💰 Rumbo a Disney</h1>
+<div class="app">
 
-  <div class="jar" id="jar"></div>
+  <!-- PÁGINA JARRO -->
+  <div class="page" id="jarroPage">
+    <h1>💰 Rumbo a Disney</h1>
 
-  <div class="amount" id="amountText"></div>
-  <div class="emotional" id="emotionalText"></div>
+    <div class="jar" id="jar"></div>
 
-  <div class="alias">
-    ¿Querés ayudar a cumplir este sueño?<br>
-    👉 Alias: <strong>mateo.cappelluti.mp</strong>
+    <div class="amount" id="amountText"></div>
+    <div class="emotional" id="emotionalText"></div>
+
+    <div class="alias">
+      ¿Querés ayudar a cumplir este sueño?<br>
+      👉 Alias: <strong>mateo.cappelluti.mp</strong>
+    </div>
+
+    <button onclick="verProgreso()">Ver progreso</button>
   </div>
 
-  <button onclick="verProgreso()">Ver progreso</button>
-</div>
+  <!-- PÁGINA FEED -->
+  <div class="page" id="feedPage">
+    <h1>📸 Progresos</h1>
 
-<div class="page" id="feedPage">
-  <h1>📸 Progresos</h1>
-  <div id="feed"></div>
-  <button onclick="volver()">⬅ Volver</button>
+    <div id="feed"></div>
+
+    <button onclick="volver()">⬅ Volver</button>
+  </div>
+
 </div>
 
 <script>
-/* ===== CONFIG ===== */
+/* ===== CONFIGURACIÓN ===== */
 let MONTO = 350; // 👈 SOLO CAMBIÁS ESTE NÚMERO
 const TOTAL = 5000;
 
-const jar=document.getElementById("jar");
-const amountText=document.getElementById("amountText");
-const emotionalText=document.getElementById("emotionalText");
+const jar = document.getElementById("jar");
+const amountText = document.getElementById("amountText");
+const emotionalText = document.getElementById("emotionalText");
 
-let monedasActuales=0;
+let monedasActuales = 0;
 
-function actualizar(){
-  const porcentaje=Math.min(MONTO/TOTAL,1);
-  const faltan=TOTAL-MONTO;
+function actualizarJarro(){
+  const porcentaje = Math.min(MONTO / TOTAL, 1);
+  const faltan = TOTAL - MONTO;
 
-  amountText.innerText=`${MONTO} USD / ${TOTAL} USD (${Math.round(porcentaje*100)}%)`;
-  emotionalText.innerText=`Faltan ${faltan} USD para llegar a Disney ✨`;
+  amountText.innerText = `${MONTO} USD / ${TOTAL} USD (${Math.round(porcentaje*100)}%)`;
+  emotionalText.innerText = `Faltan ${faltan} USD para llegar a Disney ✨`;
 
-  const cols=Math.floor(jar.clientWidth/22);
-  const rows=Math.floor(jar.clientHeight/22);
-  const totalCoins=cols*rows;
-  const objetivo=Math.round(totalCoins*porcentaje);
-  const spacing=(jar.clientWidth-22)/(cols-1);
+  const cols = Math.floor(jar.clientWidth / 22);
+  const rows = Math.floor(jar.clientHeight / 22);
+  const totalCoins = cols * rows;
+  const objetivo = Math.round(totalCoins * porcentaje);
+  const spacing = (jar.clientWidth - 22) / (cols - 1);
 
-  for(let i=monedasActuales;i<objetivo;i++){
-    const c=document.createElement("div");
-    c.className="coin";
-    const col=i%cols;
-    const row=Math.floor(i/cols);
-    c.style.left=col*spacing+"px";
-    c.style.top=jar.clientHeight-(row+1)*22+"px";
-    jar.appendChild(c);
+  for(let i = monedasActuales; i < objetivo; i++){
+    const coin = document.createElement("div");
+    coin.className = "coin";
+
+    const col = i % cols;
+    const row = Math.floor(i / cols);
+
+    coin.style.left = col * spacing + "px";
+    coin.style.top = jar.clientHeight - (row + 1) * 22 + "px";
+
+    jar.appendChild(coin);
   }
-  monedasActuales=objetivo;
+  monedasActuales = objetivo;
 }
 
 /* FEED */
-const feed=document.getElementById("feed");
-feed.innerHTML=`
+document.getElementById("feed").innerHTML = `
   <div class="progresoItem">
-    <img src="progreso1.jpg">
+    <img src="progreso1.jpg" alt="Progreso">
     Saqué turno para la visa en febrero 12/01
-  </div>`;
+  </div>
+`;
 
-/* PÁGINAS */
+/* TRANSICIONES */
 function verProgreso(){
-  jarroPage.style.transform="translateX(-100%)";
-  feedPage.style.transform="translateX(0)";
+  jarroPage.style.transform = "translateX(-100%)";
+  feedPage.style.transform = "translateX(0)";
 }
 
 function volver(){
-  jarroPage.style.transform="translateX(0)";
-  feedPage.style.transform="translateX(100%)";
+  jarroPage.style.transform = "translateX(0)";
+  feedPage.style.transform = "translateX(100%)";
 }
 
-/* MODO DÍA/NOCHE */
-const h=new Date().getHours();
-if(h>=7 && h<19) document.body.classList.add("light");
+/* MODO DÍA / NOCHE */
+const hora = new Date().getHours();
+if(hora >= 7 && hora < 19){
+  document.body.classList.add("light");
+}
 
 /* ESTRELLAS */
 for(let i=0;i<30;i++){
-  const s=document.createElement("div");
-  s.className="star";
-  s.style.left=Math.random()*100+"vw";
-  s.style.animationDelay=Math.random()*6+"s";
+  const s = document.createElement("div");
+  s.className = "star";
+  s.style.left = Math.random()*100 + "vw";
+  s.style.animationDelay = Math.random()*6 + "s";
   document.body.appendChild(s);
 }
 
-window.onload=actualizar;
+window.onload = actualizarJarro;
 </script>
+
 </body>
 </html>

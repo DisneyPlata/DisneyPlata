@@ -5,24 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rumbo a Disney</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Quicksand:wght@600&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --bg1:#0b1d2a;
-  --bg2:#1b3b4b;
-  --bg3:#2a5a6d;
-  --card:rgba(0,0,0,.35);
-  --text:#fff;
+  --bg1:#071824;
+  --bg2:#123346;
+  --bg3:#1f4e63;
   --gold:#ffd700;
+  --softGold:#ffef9c;
+  --card:rgba(0,0,0,.38);
 }
+
+*{ box-sizing:border-box; }
 
 body{
   margin:0;
   height:100vh;
   background:linear-gradient(180deg,var(--bg1),var(--bg2),var(--bg3));
   font-family:'Poppins',sans-serif;
-  color:var(--text);
+  color:white;
   overflow:hidden;
 }
 
@@ -30,40 +32,42 @@ body{
   position:relative;
   width:100vw;
   height:100vh;
-  overflow:hidden;
 }
 
-/* PÁGINAS */
+/* ===== PÁGINAS ===== */
 .page{
   position:absolute;
   inset:0;
   display:flex;
   flex-direction:column;
   align-items:center;
-  padding:16px;
-  transition:transform .7s cubic-bezier(.4,0,.2,1);
+  padding:14px;
+  transition:transform .8s cubic-bezier(.4,0,.2,1);
 }
 
 #feedPage{ transform:translateX(100%); }
 
 h1{
+  font-family:'Quicksand',sans-serif;
+  font-size:1.35rem;
   margin:6px 0 10px;
-  font-size:1.4rem;
-  text-shadow:0 0 14px rgba(255,215,0,.9);
+  text-shadow:
+    0 0 12px rgba(255,215,0,.9),
+    0 0 22px rgba(255,215,0,.5);
 }
 
-/* JARRO */
+/* ===== JARRO ===== */
 .jar{
   position:relative;
   width:220px;
   height:340px;
   border:6px solid rgba(255,255,255,.85);
-  border-radius:0 0 30px 30px;
+  border-radius:0 0 32px 32px;
   overflow:hidden;
-  background:rgba(255,215,0,.05);
+  background:rgba(255,215,0,.04);
   box-shadow:
-    0 0 28px rgba(255,215,0,.6),
-    inset 0 0 22px rgba(255,215,0,.25);
+    0 0 35px rgba(255,215,0,.7),
+    inset 0 0 24px rgba(255,215,0,.25);
 }
 
 .jar::before{
@@ -86,14 +90,16 @@ h1{
   height:22px;
   border-radius:50%;
   background:radial-gradient(circle at 30% 30%,#fffbd1,#ffb700);
-  box-shadow:0 0 8px rgba(255,215,0,.95);
+  box-shadow:
+    0 0 10px rgba(255,215,0,.95),
+    inset 0 0 4px rgba(255,255,255,.8);
   transform:translateY(-450px);
-  animation:drop .8s forwards;
+  animation:drop .8s ease forwards;
 }
 
 @keyframes drop{ to{ transform:translateY(0); } }
 
-/* TEXTOS */
+/* ===== TEXTOS ===== */
 .amount{
   margin-top:10px;
   font-weight:600;
@@ -106,84 +112,98 @@ h1{
   margin-bottom:6px;
 }
 
-/* ALIAS */
+/* ===== ALIAS ===== */
 .alias{
   margin-top:10px;
-  background:linear-gradient(145deg,rgba(255,215,0,.25),rgba(0,0,0,.4));
-  padding:14px 20px;
-  border-radius:18px;
+  background:linear-gradient(145deg,rgba(255,215,0,.28),rgba(0,0,0,.45));
+  padding:14px 22px;
+  border-radius:20px;
   text-align:center;
   font-size:.85rem;
-  box-shadow:0 0 14px rgba(255,215,0,.5);
+  box-shadow:0 0 18px rgba(255,215,0,.6);
 }
 
 .alias strong{ color:var(--gold); }
 
-/* BOTONES */
+/* ===== BOTONES ===== */
 button{
+  margin-top:10px;
   padding:12px 26px;
   border:none;
   border-radius:999px;
-  background:linear-gradient(145deg,#ffe066,#ffb700);
+  background:linear-gradient(145deg,#fff2a8,#ffb700);
   color:#3a2a00;
   font-weight:600;
   cursor:pointer;
+  box-shadow:
+    0 0 20px rgba(255,215,0,.8),
+    inset 0 0 6px rgba(255,255,255,.8);
   transition:.3s;
-  box-shadow:0 0 18px rgba(255,215,0,.75);
 }
 
-button:hover{ transform:scale(1.06); }
+button:hover{ transform:scale(1.05); }
 
 /* ===== FEED ===== */
-
-/* HEADER FEED */
 .feed-header{
   width:100%;
   display:flex;
   justify-content:center;
-  margin-bottom:8px;
+  margin-bottom:6px;
 }
 
-/* CONTENEDOR SCROLL */
 .feed-container{
   width:100%;
   max-width:420px;
   flex:1;
   overflow-y:auto;
-  padding:10px 6px 20px;
+  padding:12px 10px 60px; /* 🔑 padding extra abajo */
 }
 
-/* ITEMS */
+/* TARJETAS DE PROGRESO */
 .progresoItem{
+  position:relative;
   background:var(--card);
-  padding:14px;
-  border-radius:18px;
-  margin-bottom:14px;
+  padding:16px;
+  border-radius:20px;
+  margin-bottom:18px;
   font-size:.9rem;
-  box-shadow:0 0 12px rgba(255,215,0,.3);
+  line-height:1.4;
+  box-shadow:
+    0 0 16px rgba(255,215,0,.45),
+    inset 0 0 18px rgba(255,215,0,.15);
   animation:fadeUp .5s ease;
+}
+
+.progresoItem::after{
+  content:"✨";
+  position:absolute;
+  top:-10px;
+  right:14px;
+  font-size:1.1rem;
+  text-shadow:0 0 10px gold;
 }
 
 .progresoItem img{
   width:100%;
-  border-radius:12px;
-  margin-bottom:6px;
+  border-radius:14px;
+  margin-bottom:10px;
+  box-shadow:0 0 14px rgba(255,215,0,.6);
 }
 
 @keyframes fadeUp{
-  from{opacity:0;transform:translateY(12px);}
+  from{opacity:0;transform:translateY(14px);}
   to{opacity:1;transform:none;}
 }
 
-/* ESTRELLAS */
+/* ===== ESTRELLAS ===== */
 .star{
   position:absolute;
   width:4px;
   height:4px;
-  background:var(--gold);
+  background:var(--softGold);
   border-radius:50%;
   opacity:.7;
-  animation:float 12s linear infinite;
+  animation:float 14s linear infinite;
 }
 
 @keyframes float{
@@ -207,8 +227,8 @@ button:hover{ transform:scale(1.06); }
     <div class="emotional" id="emotionalText"></div>
 
     <div class="alias">
-      Alias para ayudar:<br>
-      <strong>mateo.cappelluti.mp</strong>
+      Alias para ayudar<br>
+      <strong>mateoadisney</strong>
     </div>
 
     <button onclick="verProgreso()">Ver el camino ✨</button>
@@ -216,26 +236,25 @@ button:hover{ transform:scale(1.06); }
 
   <!-- FEED -->
   <div class="page" id="feedPage">
-
     <div class="feed-header">
       <button onclick="volver()">⬅ Volver al jarro</button>
     </div>
 
-    <h1>✨ El camino hacia Disney</h1>
+    <h1>✨ El camino mágico</h1>
 
     <div class="feed-container" id="feed">
       <div class="progresoItem">
         <img src="progreso1.jpg">
-        Saqué turno para la visa en febrero (12/01)
+        Saqué turno para la visa en febrero (12/01).  
+        El primer paso real para que este sueño empiece a hacerse realidad ✨
       </div>
     </div>
-
   </div>
 
 </div>
 
 <script>
-let MONTO = 350; // 👈 cambiás solo esto
+let MONTO = 200;     // ← ignorado como pediste
 const TOTAL = 5000;
 
 const jar = document.getElementById("jar");
@@ -245,8 +264,8 @@ let monedasActuales = 0;
 
 function actualizarJarro(){
   const porcentaje = Math.min(MONTO/TOTAL,1);
-  amountText.innerText = `${MONTO} USD / ${TOTAL} USD (${Math.round(porcentaje*100)}%)`;
-  emotionalText.innerText = `Faltan ${TOTAL - MONTO} USD ✨`;
+  amountText.innerText = `${MONTO} USD / ${TOTAL} USD`;
+  emotionalText.innerText = `Cada paso cuenta ✨`;
 
   const cols = Math.floor(jar.clientWidth / 22);
   const rows = Math.floor(jar.clientHeight / 22);
@@ -277,11 +296,11 @@ function volver(){
 }
 
 /* ESTRELLAS */
-for(let i=0;i<35;i++){
+for(let i=0;i<40;i++){
   const s=document.createElement("div");
   s.className="star";
   s.style.left=Math.random()*100+"vw";
-  s.style.animationDelay=Math.random()*12+"s";
+  s.style.animationDelay=Math.random()*14+"s";
   document.body.appendChild(s);
 }
 

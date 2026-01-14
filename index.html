@@ -9,19 +9,20 @@
 
 <style>
 :root{
-  --bg1:#0f2027;
-  --bg2:#203a43;
-  --bg3:#2c5364;
+  --bg1:#0b1d2a;
+  --bg2:#1b3b4b;
+  --bg3:#2a5a6d;
   --card:rgba(0,0,0,.35);
   --text:#fff;
+  --gold:#ffd700;
 }
 
 body.light{
-  --bg1:#f8fbff;
-  --bg2:#e6f0ff;
-  --bg3:#d6e4ff;
-  --card:rgba(255,255,255,.7);
-  --text:#222;
+  --bg1:#fff6e0;
+  --bg2:#ffe4a8;
+  --bg3:#ffd27a;
+  --card:rgba(255,255,255,.85);
+  --text:#3a2a00;
 }
 
 body{
@@ -48,26 +49,28 @@ body{
   flex-direction:column;
   align-items:center;
   padding:20px;
-  transition:transform .6s ease;
+  transition:transform .7s cubic-bezier(.4,0,.2,1);
 }
 
 #feedPage{ transform:translateX(100%); }
 
 h1{
-  margin:10px 0;
-  text-shadow:0 0 10px rgba(255,215,0,.5);
+  margin:10px 0 14px;
+  text-shadow:0 0 18px rgba(255,215,0,.9);
 }
 
 /* JARRO */
 .jar{
   position:relative;
-  width:220px;
-  height:340px;
-  border:6px solid rgba(255,255,255,.7);
-  border-radius:0 0 28px 28px;
+  width:230px;
+  height:360px;
+  border:6px solid rgba(255,255,255,.8);
+  border-radius:0 0 32px 32px;
   overflow:hidden;
-  background:rgba(0,0,0,.15);
-  box-shadow:0 0 25px rgba(255,215,0,.35);
+  background:rgba(255,215,0,.06);
+  box-shadow:
+    0 0 35px rgba(255,215,0,.6),
+    inset 0 0 25px rgba(255,215,0,.25);
 }
 
 .jar::before{
@@ -76,11 +79,11 @@ h1{
   top:-18px;
   left:50%;
   transform:translateX(-50%);
-  width:130px;
+  width:140px;
   height:18px;
-  border:6px solid rgba(255,255,255,.7);
+  border:6px solid rgba(255,255,255,.8);
   border-bottom:none;
-  border-radius:16px 16px 0 0;
+  border-radius:18px 18px 0 0;
 }
 
 /* MONEDAS */
@@ -89,52 +92,56 @@ h1{
   width:22px;
   height:22px;
   border-radius:50%;
-  background:radial-gradient(circle at 30% 30%,#fff6b0,#ffb700);
-  transform:translateY(-420px);
-  animation:drop .7s forwards;
+  background:radial-gradient(circle at 30% 30%,#fffbd1,#ffb700);
+  box-shadow:0 0 8px rgba(255,215,0,.95);
+  transform:translateY(-450px);
+  animation:drop .8s forwards;
 }
 
-@keyframes drop{
-  to{ transform:translateY(0); }
-}
+@keyframes drop{ to{ transform:translateY(0); } }
 
 /* TEXTOS */
 .amount{
-  margin-top:12px;
+  margin-top:14px;
   font-weight:600;
 }
 
 .emotional{
   margin-top:6px;
   font-size:.95rem;
-  opacity:.9;
+  opacity:.95;
 }
 
 /* CTA */
 .alias{
   margin-top:18px;
-  background:var(--card);
-  padding:14px 22px;
-  border-radius:14px;
+  background:linear-gradient(145deg,rgba(255,215,0,.3),rgba(0,0,0,.35));
+  padding:18px 26px;
+  border-radius:22px;
   text-align:center;
+  box-shadow:0 0 18px rgba(255,215,0,.5);
 }
 
-.alias strong{ color:#ffd700; }
+.alias strong{ color:var(--gold); }
 
 /* BOTONES */
 button{
   margin-top:20px;
-  padding:12px 26px;
+  padding:14px 32px;
   border:none;
-  border-radius:12px;
-  background:#ff6f61;
-  color:white;
+  border-radius:999px;
+  background:linear-gradient(145deg,#ffe066,#ffb700);
+  color:#3a2a00;
   font-weight:600;
   cursor:pointer;
-  transition:.3s;
+  transition:.35s;
+  box-shadow:0 0 20px rgba(255,215,0,.75);
 }
 
-button:hover{ transform:scale(1.06); }
+button:hover{
+  transform:scale(1.08);
+  box-shadow:0 0 30px rgba(255,215,0,1);
+}
 
 /* FEED */
 #feed{
@@ -142,20 +149,21 @@ button:hover{ transform:scale(1.06); }
   max-width:420px;
   display:flex;
   flex-direction:column-reverse;
-  gap:16px;
+  gap:18px;
 }
 
 .progresoItem{
   background:var(--card);
-  padding:14px;
-  border-radius:14px;
+  padding:18px;
+  border-radius:20px;
+  box-shadow:0 0 14px rgba(255,215,0,.3);
   animation:fadeUp .6s forwards;
 }
 
 .progresoItem img{
   width:100%;
-  border-radius:10px;
-  margin-bottom:6px;
+  border-radius:14px;
+  margin-bottom:8px;
 }
 
 @keyframes fadeUp{
@@ -163,19 +171,27 @@ button:hover{ transform:scale(1.06); }
   to{opacity:1;transform:none;}
 }
 
+/* CONTENEDOR VOLVER */
+.volver-container{
+  margin-top:auto;
+  padding-top:30px;
+  padding-bottom:10px;
+  animation:fadeUp .6s forwards;
+}
+
 /* ESTRELLAS */
 .star{
   position:absolute;
   width:4px;
   height:4px;
-  background:#ffd700;
+  background:var(--gold);
   border-radius:50%;
-  opacity:.6;
-  animation:float 6s linear infinite;
+  opacity:.75;
+  animation:float 12s linear infinite;
 }
 
 @keyframes float{
-  from{ transform:translateY(100vh); }
+  from{ transform:translateY(110vh); }
   to{ transform:translateY(-10vh); }
 }
 </style>
@@ -187,7 +203,7 @@ button:hover{ transform:scale(1.06); }
 
   <!-- PÁGINA JARRO -->
   <div class="page" id="jarroPage">
-    <h1>💰 Rumbo a Disney</h1>
+    <h1>✨ Rumbo a Disney</h1>
 
     <div class="jar" id="jar"></div>
 
@@ -199,33 +215,34 @@ button:hover{ transform:scale(1.06); }
       👉 Alias: <strong>mateo.cappelluti.mp</strong>
     </div>
 
-    <button onclick="verProgreso()">Ver progreso</button>
+    <button onclick="verProgreso()">Ver el camino ✨</button>
   </div>
 
   <!-- PÁGINA FEED -->
   <div class="page" id="feedPage">
-    <h1>📸 Progresos</h1>
+    <h1>✨ El camino hacia Disney</h1>
 
     <div id="feed"></div>
 
-    <button onclick="volver()">⬅ Volver</button>
+    <div class="volver-container">
+      <button onclick="volver()">⬅ Volver al jarro</button>
+    </div>
   </div>
 
 </div>
 
 <script>
-/* ===== CONFIGURACIÓN ===== */
+/* CONFIG */
 let MONTO = 350; // 👈 SOLO CAMBIÁS ESTE NÚMERO
 const TOTAL = 5000;
 
 const jar = document.getElementById("jar");
 const amountText = document.getElementById("amountText");
 const emotionalText = document.getElementById("emotionalText");
-
 let monedasActuales = 0;
 
 function actualizarJarro(){
-  const porcentaje = Math.min(MONTO / TOTAL, 1);
+  const porcentaje = Math.min(MONTO/TOTAL,1);
   const faltan = TOTAL - MONTO;
 
   amountText.innerText = `${MONTO} USD / ${TOTAL} USD (${Math.round(porcentaje*100)}%)`;
@@ -237,17 +254,14 @@ function actualizarJarro(){
   const objetivo = Math.round(totalCoins * porcentaje);
   const spacing = (jar.clientWidth - 22) / (cols - 1);
 
-  for(let i = monedasActuales; i < objetivo; i++){
-    const coin = document.createElement("div");
-    coin.className = "coin";
-
-    const col = i % cols;
-    const row = Math.floor(i / cols);
-
-    coin.style.left = col * spacing + "px";
-    coin.style.top = jar.clientHeight - (row + 1) * 22 + "px";
-
-    jar.appendChild(coin);
+  for(let i=monedasActuales;i<objetivo;i++){
+    const c=document.createElement("div");
+    c.className="coin";
+    const col=i%cols;
+    const row=Math.floor(i/cols);
+    c.style.left=col*spacing+"px";
+    c.style.top=jar.clientHeight-(row+1)*22+"px";
+    jar.appendChild(c);
   }
   monedasActuales = objetivo;
 }
@@ -255,34 +269,31 @@ function actualizarJarro(){
 /* FEED */
 document.getElementById("feed").innerHTML = `
   <div class="progresoItem">
-    <img src="progreso1.jpg" alt="Progreso">
+    <img src="progreso1.jpg">
     Saqué turno para la visa en febrero 12/01
-  </div>
-`;
+  </div>`;
 
 /* TRANSICIONES */
 function verProgreso(){
-  jarroPage.style.transform = "translateX(-100%)";
-  feedPage.style.transform = "translateX(0)";
+  jarroPage.style.transform="translateX(-100%)";
+  feedPage.style.transform="translateX(0)";
 }
 
 function volver(){
-  jarroPage.style.transform = "translateX(0)";
-  feedPage.style.transform = "translateX(100%)";
+  jarroPage.style.transform="translateX(0)";
+  feedPage.style.transform="translateX(100%)";
 }
 
 /* MODO DÍA / NOCHE */
-const hora = new Date().getHours();
-if(hora >= 7 && hora < 19){
-  document.body.classList.add("light");
-}
+const h=new Date().getHours();
+if(h>=7 && h<19) document.body.classList.add("light");
 
 /* ESTRELLAS */
-for(let i=0;i<30;i++){
-  const s = document.createElement("div");
-  s.className = "star";
-  s.style.left = Math.random()*100 + "vw";
-  s.style.animationDelay = Math.random()*6 + "s";
+for(let i=0;i<40;i++){
+  const s=document.createElement("div");
+  s.className="star";
+  s.style.left=Math.random()*100+"vw";
+  s.style.animationDelay=Math.random()*12+"s";
   document.body.appendChild(s);
 }
 

@@ -5,238 +5,261 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rumbo a Disney</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
 <style>
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
-  font-family: 'Poppins', sans-serif;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
+:root{
+  --bg1:#0f2027;
+  --bg2:#203a43;
+  --bg3:#2c5364;
+  --card:rgba(0,0,0,.35);
+  --text:#fff;
 }
 
-h1 {
-  margin-bottom: 20px;
-  font-weight: 600;
-  font-size: 2rem;
-  text-shadow: 0 0 8px rgba(255,255,255,0.4);
+body.light{
+  --bg1:#f8fbff;
+  --bg2:#e6f0ff;
+  --bg3:#d6e4ff;
+  --card:rgba(255,255,255,.7);
+  --text:#222;
 }
 
-#jarroPage { display: flex; flex-direction: column; align-items: center; }
-
-.jar {
-  position: relative;
-  width: 220px;
-  height: 340px;
-  border: 6px solid rgba(255,255,255,0.7);
-  border-radius: 0 0 28px 28px;
-  overflow: hidden;
-  background: rgba(0,0,0,0.15);
-  margin-bottom: 10px;
-  box-shadow: 0 0 20px rgba(255,215,0,0.3);
+body{
+  margin:0;
+  min-height:100vh;
+  background:linear-gradient(180deg,var(--bg1),var(--bg2),var(--bg3));
+  font-family:'Poppins',sans-serif;
+  color:var(--text);
+  overflow:hidden;
 }
 
-.jar::before {
-  content: "";
-  position: absolute;
-  top: -18px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 130px;
-  height: 18px;
-  border: 6px solid rgba(255,255,255,0.7);
-  border-bottom: none;
-  border-radius: 16px 16px 0 0;
-  box-shadow: 0 0 10px rgba(255,215,0,0.4);
+.page{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:20px;
+  transition:transform .6s ease;
 }
 
-.amount {
-  margin-top: 14px;
-  font-weight: 600;
-  font-size: 1.2rem;
-  text-shadow: 0 0 5px rgba(255,255,255,0.3);
+#feedPage{ transform:translateX(100%); }
+
+h1{
+  margin:10px 0;
+  text-shadow:0 0 10px rgba(255,215,0,.5);
 }
 
-.alias {
-  margin-top: 20px;
-  background: rgba(0,0,0,0.35);
-  padding: 14px 20px;
-  border-radius: 12px;
-  text-align: center;
-  font-size: 0.95rem;
+.jar{
+  position:relative;
+  width:220px;
+  height:340px;
+  border:6px solid rgba(255,255,255,.7);
+  border-radius:0 0 28px 28px;
+  overflow:hidden;
+  background:rgba(0,0,0,.15);
+  box-shadow:0 0 25px rgba(255,215,0,.35);
 }
 
-.alias strong { color: #ffd700; }
-
-.coin {
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #fff6b0, #ffb700);
-  transform: translateY(-350px);
-  animation: drop 0.6s forwards;
+.jar::before{
+  content:"";
+  position:absolute;
+  top:-18px;
+  left:50%;
+  transform:translateX(-50%);
+  width:130px;
+  height:18px;
+  border:6px solid rgba(255,255,255,.7);
+  border-bottom:none;
+  border-radius:16px 16px 0 0;
 }
 
-@keyframes drop { to { transform: translateY(0); } }
-
-button {
-  margin-top: 20px;
-  padding: 12px 25px;
-  font-size: 16px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  color: white;
-  font-weight: 600;
-  transition: all 0.3s;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+.coin{
+  position:absolute;
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 30%,#fff6b0,#ffb700);
+  transform:translateY(-400px);
+  animation:drop .7s forwards;
 }
 
-#progresoBtn { background-color: #ff6f61; }
-#progresoBtn:hover { background-color: #ff3b2f; transform: scale(1.05); }
+@keyframes drop{ to{ transform:translateY(0); } }
 
-#volverBtn { background-color: #555; }
-#volverBtn:hover { background-color: #777; transform: scale(1.05); }
-
-#feedPage { display: none; flex-direction: column; align-items: center; width: 100%; }
-
-#feed {
-  width: 100%;
-  max-width: 400px;
-  display: flex;
-  flex-direction: column-reverse;
-  gap: 15px;
-  margin-bottom: 20px;
+.amount{
+  margin-top:12px;
+  font-weight:600;
 }
 
-.progresoItem {
-  background: rgba(255,255,255,0.12);
-  padding: 12px;
-  border-radius: 12px;
-  text-align: center;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeUp 0.5s forwards;
+.emotional{
+  margin-top:6px;
+  font-size:.95rem;
+  opacity:.9;
 }
 
-.progresoItem img {
-  max-width: 100%;
-  border-radius: 10px;
-  margin-bottom: 8px;
+.alias{
+  margin-top:18px;
+  background:var(--card);
+  padding:14px 20px;
+  border-radius:14px;
+  text-align:center;
 }
 
-@keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+.alias strong{ color:#ffd700; }
 
+button{
+  margin-top:20px;
+  padding:12px 26px;
+  border:none;
+  border-radius:12px;
+  background:#ff6f61;
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+  transition:.3s;
+}
+
+button:hover{ transform:scale(1.06); }
+
+#feed{
+  width:100%;
+  max-width:400px;
+  display:flex;
+  flex-direction:column-reverse;
+  gap:16px;
+}
+
+.progresoItem{
+  background:var(--card);
+  padding:14px;
+  border-radius:14px;
+  animation:fadeUp .6s forwards;
+}
+
+.progresoItem img{
+  width:100%;
+  border-radius:10px;
+  margin-bottom:6px;
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px);}
+  to{opacity:1;transform:none;}
+}
+
+/* ESTRELLAS */
+.star{
+  position:absolute;
+  width:4px;
+  height:4px;
+  background:#ffd700;
+  border-radius:50%;
+  animation:float 6s linear infinite;
+  opacity:.6;
+}
+
+@keyframes float{
+  from{transform:translateY(100vh);}
+  to{transform:translateY(-10vh);}
+}
 </style>
 </head>
+
 <body>
 
-<h1>💰 Rumbo a Disney</h1>
-
-<div id="jarroPage">
-  <p>Jarro de aportes – objetivo 5.000 USD</p>
+<div class="page" id="jarroPage">
+  <h1>💰 Rumbo a Disney</h1>
 
   <div class="jar" id="jar"></div>
 
   <div class="amount" id="amountText"></div>
+  <div class="emotional" id="emotionalText"></div>
 
   <div class="alias">
-    Alias para aportar<br>
-    <strong>mateoadisney</strong><br>
-    Destino: Disney ✨
+    ¿Querés ayudar a cumplir este sueño?<br>
+    👉 Alias: <strong>mateo.cappelluti.mp</strong>
   </div>
 
-  <button id="progresoBtn">Ver progreso</button>
+  <button onclick="verProgreso()">Ver progreso</button>
 </div>
 
-<div id="feedPage">
+<div class="page" id="feedPage">
   <h1>📸 Progresos</h1>
   <div id="feed"></div>
-  <button id="volverBtn">⬅ Volver</button>
+  <button onclick="volver()">⬅ Volver</button>
 </div>
 
 <script>
-/* ===== CONFIGURACION ===== */
-// SOLO CAMBIA ESTE NUMERO PARA ACTUALIZAR EL MONTO
-let MONTO = 200;  // <- Cambia aquí el monto recaudado
+/* ===== CONFIG ===== */
+let MONTO = 350; // 👈 SOLO CAMBIÁS ESTE NÚMERO
 const TOTAL = 5000;
 
-const JAR = document.getElementById("jar");
-const amountText = document.getElementById("amountText");
+const jar=document.getElementById("jar");
+const amountText=document.getElementById("amountText");
+const emotionalText=document.getElementById("emotionalText");
 
-// MONEDAS YA EXISTENTES EN EL JARRO (para efecto dinámico)
-let monedasActuales = 0;
+let monedasActuales=0;
 
-function actualizarJarro() {
-  const porcentaje = Math.min(MONTO/TOTAL,1);
-  amountText.innerText = `${MONTO} USD / ${TOTAL} USD (${Math.round(porcentaje*100)}%)`;
+function actualizar(){
+  const porcentaje=Math.min(MONTO/TOTAL,1);
+  const faltan=TOTAL-MONTO;
 
-  const jarWidth = JAR.clientWidth;
-  const jarHeight = JAR.clientHeight;
-  const coinSize = 22;
-  const cols = Math.floor(jarWidth / coinSize);
-  const rows = Math.floor(jarHeight / coinSize);
-  const totalCoins = cols * rows;
-  const coinsObjetivo = Math.round(totalCoins * porcentaje);
+  amountText.innerText=`${MONTO} USD / ${TOTAL} USD (${Math.round(porcentaje*100)}%)`;
+  emotionalText.innerText=`Faltan ${faltan} USD para llegar a Disney ✨`;
 
-  const spacingX = (jarWidth - coinSize)/(cols-1);
+  const cols=Math.floor(jar.clientWidth/22);
+  const rows=Math.floor(jar.clientHeight/22);
+  const totalCoins=cols*rows;
+  const objetivo=Math.round(totalCoins*porcentaje);
+  const spacing=(jar.clientWidth-22)/(cols-1);
 
-  // Solo añadir las monedas que faltan
-  for(let i=monedasActuales; i<coinsObjetivo; i++){
-    const coin = document.createElement("div");
-    coin.className = "coin";
-
-    const col = i % cols;
-    const row = Math.floor(i/cols);
-
-    const x = col*spacingX;
-    const y = jarHeight - ((row+1)*coinSize);
-
-    coin.style.left = x+"px";
-    coin.style.top = y+"px";
-    coin.style.animationDelay = (Math.random()*0.5)+"s";
-
-    JAR.appendChild(coin);
+  for(let i=monedasActuales;i<objetivo;i++){
+    const c=document.createElement("div");
+    c.className="coin";
+    const col=i%cols;
+    const row=Math.floor(i/cols);
+    c.style.left=col*spacing+"px";
+    c.style.top=jar.clientHeight-(row+1)*22+"px";
+    jar.appendChild(c);
   }
-  monedasActuales = coinsObjetivo;
+  monedasActuales=objetivo;
 }
 
-// CARGAR JARRO DINÁMICO
-window.onload = () => { actualizarJarro(); };
+/* FEED */
+const feed=document.getElementById("feed");
+feed.innerHTML=`
+  <div class="progresoItem">
+    <img src="progreso1.jpg">
+    Saqué turno para la visa en febrero 12/01
+  </div>`;
 
-/* ===== FEED DE PROGRESOS ===== */
-const progresos = [
-  { img: "https://disneyplata.github.io/DisneyPlata/progreso1.jpg", texto: "Saqué turno para la visa en febrero 12/01" }
-];
+/* PÁGINAS */
+function verProgreso(){
+  jarroPage.style.transform="translateX(-100%)";
+  feedPage.style.transform="translateX(0)";
+}
 
-const feed = document.getElementById("feed");
-progresos.forEach((p,i)=>{
-  const item = document.createElement("div");
-  item.className = "progresoItem";
-  item.style.animationDelay = `${i*0.2}s`;
-  item.innerHTML = `<img src="${p.img}" alt="Progreso"><div>${p.texto}</div>`;
-  feed.appendChild(item);
-});
+function volver(){
+  jarroPage.style.transform="translateX(0)";
+  feedPage.style.transform="translateX(100%)";
+}
 
-/* ===== BOTONES PAGINAS ===== */
-const progresoBtn = document.getElementById("progresoBtn");
-const volverBtn = document.getElementById("volverBtn");
-const jarroPage = document.getElementById("jarroPage");
-const feedPage = document.getElementById("feedPage");
+/* MODO DÍA/NOCHE */
+const h=new Date().getHours();
+if(h>=7 && h<19) document.body.classList.add("light");
 
-progresoBtn.addEventListener("click", ()=>{
-  jarroPage.style.display = "none";
-  feedPage.style.display = "flex";
-});
+/* ESTRELLAS */
+for(let i=0;i<30;i++){
+  const s=document.createElement("div");
+  s.className="star";
+  s.style.left=Math.random()*100+"vw";
+  s.style.animationDelay=Math.random()*6+"s";
+  document.body.appendChild(s);
+}
 
-volverBtn.addEventListener("click", ()=>{
-  feedPage.style.display = "none";
-  jarroPage.style.display = "flex";
-});
+window.onload=actualizar;
 </script>
 </body>
 </html>
